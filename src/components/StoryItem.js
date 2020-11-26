@@ -8,7 +8,7 @@ const StoryItem = ({ story }) => {
       <Header as="h4">{story.title}</Header>
       <Icon name="comment" link />
       <span>
-        Author: <a href="##">{story.author}</a>
+        Author: <a href="/detail">{story.author}</a>
       </span>
     </Container>
   );

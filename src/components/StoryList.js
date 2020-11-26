@@ -8,6 +8,8 @@ import StoryItem from "./StoryItem";
 const StoryList = () => {
   const { loading, stories, pageNumber } = useSelector(state => state.story);
   const storiesPerPage = 5;
+  console.log(stories);
+  console.log(pageNumber);
   // console.log(stories); // sai cho nay ne, tai sao k co gis
   // console.log();
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ const StoryList = () => {
 
   const lastIndexStory = pageNumber * storiesPerPage;
   const firstIndexStory = lastIndexStory - storiesPerPage;
-  const currentStories = stories.slice(firstIndexStory, lastIndexStory);
+  // const currentStories = stories.slice(firstIndexStory, lastIndexStory);
   if (loading) {
     return (
       <Segment>
@@ -27,9 +29,9 @@ const StoryList = () => {
     <Segment>
       <Header as="h2">List of Stories</Header>
       <List>
-        {currentStories.map(story => (
+        {/* {currentStories.map(story => (
           <StoryItem story={story} key={story.id} />
-        ))}
+        ))} */}
       </List>
     </Segment>
   );

@@ -1,3 +1,4 @@
+import produce from "immer";
 import {
   SET_LOADING,
   FETCH,
@@ -13,39 +14,26 @@ const INIT_STATE = {
   numberOfPages: 1,
   storiesPerPage: 5
 };
-export default (state = INIT_STATE, { type, payload }) => {
-  switch (type) {
-    case SET_LOADING:
-      return {
-        ...state,
-        loading: true
-      };
-    case STOP_LOADING:
-      return {
-        ...state,
-        loading: false
-      };
-    case ERROR:
-      return {
-        ...state,
-        error: payload
-      };
-    case FETCH: {
-      {
-        console.log(payload.list);
-        return {
-          ...state,
-          stories: [...payload.list], //tai sao k match vao @@
-          numberOfPages: payload.numberOfPages
-        };
+
+export default (state = INIT_STATE, { type, payload }) =>
+  produce(
+    (state,
+    draft => {
+      switch (type) {
+        case SET_LOADING:
+          draft.loading = true;
+          break;
+        case STOP_LOADING:
+          draft.loading = false;
+          break;
+        case ERROR:
+          draft.err = payload;
+          break;
+        case FETCH:
+          draft.stories = [...payload]; //tai sao k match vao @@
+          break;
+        case CHANGE_PAGE:
+          draft.pageNumber = payload;
       }
-    }
-    case CHANGE_PAGE:
-      return {
-        ...state,
-        pageNumber: payload
-      };
-    default:
-      return state;
-  }
-};
+    })
+  );

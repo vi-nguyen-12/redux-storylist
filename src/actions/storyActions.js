@@ -1,7 +1,7 @@
 import { SET_LOADING, FETCH, ERROR, CHANGE_PAGE, STOP_LOADING } from "./types";
 import storiesApi from "axios/storiesApi";
 import axios from "axios";
-import { calNumOfPages } from "util";
+import { calNumOfPages } from "./actionUtil.js";
 
 export const setLoading = () => ({ type: SET_LOADING });
 export const stopLoading = () => ({ type: STOP_LOADING });
@@ -9,7 +9,6 @@ export const stopLoading = () => ({ type: STOP_LOADING });
 export const fetch = storiesPerPage => async dispatch => {
   try {
     dispatch(setLoading());
-    debugger;
     const list = [];
     const res = await storiesApi.getDefault();
     list.push({
@@ -19,12 +18,12 @@ export const fetch = storiesPerPage => async dispatch => {
       type: res.type
     });
     console.log(list);
-    const num = calNumOfPages(list.length, storiesPerPage);
-    console.log(num);
-    // dispatch({
-    //   type: FETCH,
-    //   payload: { list, numberOfPages: num }
-    // });
+    // const num = calNumOfPages(list.length, storiesPerPage);
+    // console.log(num);
+    dispatch({
+      type: FETCH,
+      payload: list // need to dispatch numberOfPages also
+    });
   } catch (err) {
     dispatch({ type: ERROR, payload: "error" });
   } finally {
