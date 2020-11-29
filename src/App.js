@@ -15,8 +15,8 @@ const App = () => {
         <Search />
         <Switch>
           <Route exact path="/" component={StoryList} />
-          <Route exact path="/detail" component={StoryDetail} />
-          <Route exact path="/author" component={Author} />
+          <Route exact path="/detail/:id" component={StoryDetail} />
+          <Route exact path="/author/:name" component={Author} />
         </Switch>
         <Pages />
       </Router>

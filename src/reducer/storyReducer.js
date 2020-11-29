@@ -14,26 +14,23 @@ const INIT_STATE = {
   numberOfPages: 1,
   storiesPerPage: 5
 };
-
-export default (state = INIT_STATE, { type, payload }) =>
-  produce(
-    (state,
-    draft => {
-      switch (type) {
-        case SET_LOADING:
-          draft.loading = true;
-          break;
-        case STOP_LOADING:
-          draft.loading = false;
-          break;
-        case ERROR:
-          draft.err = payload;
-          break;
-        case FETCH:
-          draft.stories = [...payload]; //tai sao k match vao @@
-          break;
-        case CHANGE_PAGE:
-          draft.pageNumber = payload;
-      }
-    })
-  );
+const storyReducer = produce((draft, { type, payload }) => {
+  switch (type) {
+    case SET_LOADING:
+      draft.loading = true;
+      break;
+    case STOP_LOADING:
+      draft.loading = false;
+      break;
+    case ERROR:
+      draft.err = payload;
+      break;
+    case FETCH:
+      draft.stories = [...payload.list]; //tai sao k match vao @@
+      draft.numberOfPages = payload.numOfPages;
+      break;
+    case CHANGE_PAGE:
+      draft.pageNumber = payload;
+  }
+}, INIT_STATE);
+export default storyReducer;

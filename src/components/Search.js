@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getSearch } from "actions/storyActions";
 import { Input, Form } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 const Search = () => {
   const [input, setInput] = useState("");
@@ -14,14 +15,16 @@ const Search = () => {
     setInput("");
   };
   return (
-    <Form onSubmit={handleSubmit}>
-      <Input
-        value={input}
-        placeholder="Search..."
-        icon="search"
-        onChange={handleChange}
-      />
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <Input
+          value={input}
+          placeholder="Search..."
+          icon="search"
+          onChange={handleChange}
+        />
+      </Form>
+    </>
   );
 };
 

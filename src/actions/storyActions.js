@@ -1,12 +1,15 @@
 import { SET_LOADING, FETCH, ERROR, CHANGE_PAGE, STOP_LOADING } from "./types";
 import storiesApi from "axios/storiesApi";
-import axios from "axios";
-import { calNumOfPages } from "./actionUtil.js";
+import { calNumOfPages } from "./util.js";
 
 export const setLoading = () => ({ type: SET_LOADING });
 export const stopLoading = () => ({ type: STOP_LOADING });
+export const fetch = (list, numOfPages) => ({
+  type: FETCH,
+  payload: { list, numOfPages }
+});
 
-export const fetch = storiesPerPage => async dispatch => {
+export const fetchStories = storiesPerPage => async dispatch => {
   try {
     dispatch(setLoading());
     const list = [];
@@ -17,13 +20,8 @@ export const fetch = storiesPerPage => async dispatch => {
       author: res.author,
       type: res.type
     });
-    console.log(list);
-    // const num = calNumOfPages(list.length, storiesPerPage);
-    // console.log(num);
-    dispatch({
-      type: FETCH,
-      payload: list // need to dispatch numberOfPages also
-    });
+    const numOfPages = calNumOfPages(list.length, storiesPerPage);
+    dispatch(fetch(list, numOfPages));
   } catch (err) {
     dispatch({ type: ERROR, payload: "error" });
   } finally {
@@ -35,7 +33,6 @@ export const getSearch = input => async dispatch => {
   try {
     dispatch(setLoading());
     const res = await storiesApi.search({ query: input });
-    console.log(res.hits);
     const list = res.hits.map(x => {
       return {
         id: x.objectID,
@@ -45,11 +42,8 @@ export const getSearch = input => async dispatch => {
         type: x._tags[0]
       };
     });
-    const numberOfPages = calNumOfPages(list.length);
-    dispatch({
-      type: FETCH,
-      payload: { stories: list, pages: numberOfPages }
-    });
+    const numOfPages = calNumOfPages(list.length, 5);
+    dispatch(fetch(list, numOfPages));
   } catch (err) {
     dispatch({ type: ERROR, payload: "error" });
   } finally {

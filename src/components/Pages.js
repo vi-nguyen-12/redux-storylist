@@ -8,8 +8,7 @@ const Pages = () => {
   const { numberOfPages } = useSelector(state => state.story);
   const dispatch = useDispatch();
 
-  const handleChange = (e, data) => {
-    console.log(data.activePage);
+  const handleChange = (_, data) => {
     dispatch(changePage(data.activePage));
   };
 
