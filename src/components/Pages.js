@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { changePage } from "../actions/storyActions";
 import { Pagination } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
+import { Container } from "../Styles/StyledPage";
 
 const Pages = () => {
   const { numberOfPages } = useSelector(state => state.story);
@@ -13,11 +14,13 @@ const Pages = () => {
   };
 
   return (
-    <Pagination
-      defaultActivePage={1}
-      totalPages={numberOfPages}
-      onPageChange={handleChange}
-    />
+    <Container>
+      <Pagination
+        defaultActivePage={1}
+        totalPages={numberOfPages}
+        onPageChange={handleChange}
+      />
+    </Container>
   );
 };
 

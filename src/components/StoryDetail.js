@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading, stopLoading } from "../actions/storyActions";
-import { Segment, Header, Button } from "semantic-ui-react";
+import { Segment, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import { Info, StyledLink, Content, Header } from "../Styles/StyledDetail";
 import storiesApi from "../axios/storiesApi";
 import axios from "axios";
 import Comments from "./Comments";
@@ -51,15 +52,21 @@ const StoryDetail = props => {
   }
   return (
     <Segment>
-      <Header as="h2">Title: {state.title}</Header>
+      <Header as="h2">{state.title}</Header>
 
-      <p>
-        Created: {state.created_at && formatDate(state.created_at)}
-        <br />
-        Author: <Link to={`/author/${state.author}`}>{state.author}</Link>{" "}
-      </p>
-      <p>Content: {state.text}</p>
-      <Button onClick={onComments}>Comments</Button>
+      <Info>
+        <Icon name="calendar alternate outline" />
+        <StyledLink href="#">
+          {state.created_at && formatDate(state.created_at)}
+        </StyledLink>{" "}
+        <Icon name="user" />
+        <Link to={`/author/${state.author}`}>{state.author}</Link>{" "}
+        <Icon name="comments" />
+        <StyledLink href="#" onClick={onComments}>
+          Comments
+        </StyledLink>
+      </Info>
+      <Content>{state.text}</Content>
       {state.comments && <Comments id={props.match.params.id}></Comments>}
     </Segment>
   );

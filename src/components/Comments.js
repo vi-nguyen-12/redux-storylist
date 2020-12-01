@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
+import { Container, Header } from "../Styles/StyledDetail";
 import { Link } from "react-router-dom";
 
 const Comments = ({ id }) => {
@@ -27,13 +28,14 @@ const Comments = ({ id }) => {
     return <>Loading... </>;
   }
   return (
-    <>
+    <Segment>
+      <Header sub>Comments</Header>
       {list.map(x => (
         <Container key={x.objectID}>
           <Link to={`/author/${x.author}`}>{x.author}</Link> : {x.comment_text}
         </Container>
       ))}
-    </>
+    </Segment>
   );
 };
 

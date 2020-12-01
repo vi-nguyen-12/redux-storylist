@@ -1,16 +1,33 @@
 import React from "react";
-import { Container, Header, Icon } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Icon } from "semantic-ui-react";
+import {
+  Container,
+  StyledLink,
+  Image,
+  Content,
+  Header,
+  Subheader
+} from "../Styles/StyledItem";
 const StoryItem = ({ story }) => {
   return (
     <Container>
-      <Header as="h4">
-        <Link to={`/detail/${story.id}`}>{story.title}</Link>
-      </Header>
-      <Icon name="comment" />
-      <span>
-        Author: <Link to={`/author/${story.author}`}>{story.author}</Link>
-      </span>
+      <Image src="https://picsum.photos/200/300" />
+      <Content>
+        <Header as="h5">
+          <StyledLink primary to={`/detail/${story.id}`}>
+            {story.title}
+          </StyledLink>
+        </Header>
+        <Subheader>
+          <div>
+            by:{" "}
+            <StyledLink to={`/author/${story.author}`}>
+              {story.author}
+            </StyledLink>
+          </div>
+          <Icon name="comments" />
+        </Subheader>
+      </Content>
     </Container>
   );
 };

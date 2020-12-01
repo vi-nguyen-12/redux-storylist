@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchStories } from "../actions/storyActions";
-import { Segment, Header, List } from "semantic-ui-react";
+import { Segment, Header, Grid } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import StoryItem from "./StoryItem";
 
@@ -9,7 +9,7 @@ const StoryList = () => {
   const { loading, stories, pageNumber } = useSelector(state => state.story);
   const storiesPerPage = 5;
   const dispatch = useDispatch();
-  useEffect(() => dispatch(fetchStories(storiesPerPage)), []);
+  useEffect(() => dispatch(fetchStories(storiesPerPage)), [pageNumber]);
 
   const lastIndexStory = pageNumber * storiesPerPage;
   const firstIndexStory = lastIndexStory - storiesPerPage;
@@ -22,14 +22,13 @@ const StoryList = () => {
     );
   }
   return (
-    <Segment>
-      <Header as="h2">List of Stories</Header>
-      <List>
-        {currentStories.map(story => (
-          <StoryItem story={story} key={story.id} />
-        ))}
-      </List>
-    </Segment>
+    <Grid columns={3} textAlign="center">
+      {currentStories.map(story => (
+        <Grid.Column key={story.id}>
+          <StoryItem story={story} />
+        </Grid.Column>
+      ))}
+    </Grid>
   );
 };
 
