@@ -7,7 +7,7 @@ import {
   Content,
   Header,
   Subheader
-} from "../Styles/StyledItem";
+} from "../styles/StyledItem";
 const StoryItem = ({ story }) => {
   return (
     <Container>

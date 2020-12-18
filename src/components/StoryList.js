@@ -9,7 +9,9 @@ const StoryList = () => {
   const { loading, stories, pageNumber } = useSelector(state => state.story);
   const storiesPerPage = 5;
   const dispatch = useDispatch();
-  useEffect(() => dispatch(fetchStories(storiesPerPage)), [pageNumber]);
+  useEffect(() => {
+    dispatch(fetchStories(storiesPerPage));}
+    , [pageNumber]);
 
   const lastIndexStory = pageNumber * storiesPerPage;
   const firstIndexStory = lastIndexStory - storiesPerPage;

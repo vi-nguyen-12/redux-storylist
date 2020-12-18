@@ -7,7 +7,7 @@ import Pages from "components/Pages";
 import Heading from "components/Heading";
 import StoryDetail from "components/StoryDetail";
 import Author from "components/Author";
-import { GlobalStyle } from "./Styles/GlobalStyle";
+import { GlobalStyle } from "./styles/GlobalStyle";
 
 const App = () => {
   return (

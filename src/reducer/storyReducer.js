@@ -26,7 +26,7 @@ const storyReducer = produce((draft, { type, payload }) => {
       draft.err = payload;
       break;
     case FETCH:
-      draft.stories = [...payload.list]; //tai sao k match vao @@
+      draft.stories = payload.list;
       draft.numberOfPages = payload.numOfPages;
       break;
     case CHANGE_PAGE:

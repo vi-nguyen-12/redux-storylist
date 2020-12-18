@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { Info, StyledLink } from "../Styles/StyledDetail";
-import { Container } from "../Styles/StyledAuthor";
+import { Info, StyledLink } from "../styles/StyledDetail";
+import { Container } from "../styles/StyledAuthor";
 import { format } from "date-fns";
 
 const Author = props => {

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLoading, stopLoading } from "../actions/storyActions";
 import { Segment, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { Info, StyledLink, Content, Header } from "../Styles/StyledDetail";
+import { Info, StyledLink, Content, Header } from "../styles/StyledDetail";
 import storiesApi from "../axios/storiesApi";
 import axios from "axios";
 import Comments from "./Comments";

@@ -1,7 +1,7 @@
 import React from "react";
 import Search from "components/Search";
 import { Grid, Segment } from "semantic-ui-react";
-import { StyledHeader, StyledMenu } from "../Styles/StyledHeading";
+import { StyledHeader, StyledMenu } from "../styles/StyledHeading";
 
 const Heading = () => {
   return (

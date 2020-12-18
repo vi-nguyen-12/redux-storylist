@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Segment } from "semantic-ui-react";
-import { Container, Header } from "../Styles/StyledDetail";
+import { Container, Header } from "../styles/StyledDetail";
 import { Link } from "react-router-dom";
 
 const Comments = ({ id }) => {

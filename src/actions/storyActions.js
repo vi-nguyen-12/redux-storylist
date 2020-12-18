@@ -21,6 +21,7 @@ export const fetchStories = storiesPerPage => async dispatch => {
       type: res.type
     });
     const numOfPages = calNumOfPages(list.length, storiesPerPage);
+    console.log(list);
     dispatch(fetch(list, numOfPages));
   } catch (err) {
     dispatch({ type: ERROR, payload: "error" });
@@ -29,7 +30,7 @@ export const fetchStories = storiesPerPage => async dispatch => {
   }
 };
 export const changePage = page => ({ type: CHANGE_PAGE, payload: page });
-export const getSearch = input => async dispatch => {
+export const getSearch = (input, history) => async dispatch => {
   try {
     dispatch(setLoading());
     const res = await storiesApi.search({ query: input });
@@ -44,6 +45,7 @@ export const getSearch = input => async dispatch => {
     });
     const numOfPages = calNumOfPages(list.length, 5);
     dispatch(fetch(list, numOfPages));
+    history.push(`/?query=${input}`); //nó fetch tới 2 lần lận nè
   } catch (err) {
     dispatch({ type: ERROR, payload: "error" });
   } finally {

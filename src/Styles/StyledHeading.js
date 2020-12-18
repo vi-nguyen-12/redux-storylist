@@ -5,6 +5,12 @@ export const StyledHeader = styled.h2`
   font-family: "Sansita Swashed", cursive;
   color: #3bafaa;
   font-size: 2rem;
+  ${props =>
+    props.primary &&
+    `
+    background-color:red;
+    color:white
+  `}
 `;
 export const StyledMenu = styled(Menu)`
   &&& > .item {
