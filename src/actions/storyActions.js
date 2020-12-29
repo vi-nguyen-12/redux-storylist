@@ -1,35 +1,52 @@
-import { SET_LOADING, FETCH, ERROR, CHANGE_PAGE, STOP_LOADING } from "./types";
+import { SET_LOADING, FETCH, ERROR, CHANGE_PAGE, STOP_LOADING, SET_STORY } from "./types";
 import storiesApi from "axios/storiesApi";
 import { calNumOfPages } from "./util.js";
 
 export const setLoading = () => ({ type: SET_LOADING });
 export const stopLoading = () => ({ type: STOP_LOADING });
-export const fetch = (list, numOfPages) => ({
-  type: FETCH,
-  payload: { list, numOfPages }
-});
 
-export const fetchStories = storiesPerPage => async dispatch => {
+export const fetchInit = ()=> async dispatch => {
   try {
     dispatch(setLoading());
-    const list = [];
     const res = await storiesApi.getDefault();
-    list.push({
-      id: res.id,
-      title: res.title,
-      author: res.author,
-      type: res.type
-    });
-    const numOfPages = calNumOfPages(list.length, storiesPerPage);
-    console.log(list);
-    dispatch(fetch(list, numOfPages));
+    dispatch({type:FETCH, payload:res.hits});
   } catch (err) {
     dispatch({ type: ERROR, payload: "error" });
   } finally {
     dispatch(stopLoading());
   }
 };
-export const changePage = page => ({ type: CHANGE_PAGE, payload: page });
+
+export const changePage = page => async dispatch=>{
+  try{
+    dispatch(setLoading());
+    const res = await storiesApi.get({page:page-1});
+    dispatch({type:FETCH, payload:res.hits});
+  }
+  catch(err){
+    dispatch({ type: ERROR, payload: "error" })
+  }
+  finally {
+    dispatch(stopLoading());
+  }
+};
+
+export const findStory = id => async dispatch=>{
+  try{
+    dispatch(setLoading());
+    const res = await storiesApi.get({tags:`story_:${id}`});
+    console.log(res)
+    // dispatch({type:SET_STORY, payload:res.hits});
+  }
+  catch(err){
+    dispatch({ type: ERROR, payload: "error" })
+  }
+  finally {
+    dispatch(stopLoading());
+  }
+};
+
+
 export const getSearch = (input, history) => async dispatch => {
   try {
     dispatch(setLoading());

@@ -3,3 +3,4 @@ export const STOP_LOADING = "STOP_LOADING";
 export const FETCH = "FETCH";
 export const ERROR = "ERROR";
 export const CHANGE_PAGE = "CHANGE_PAGE";
+export const SET_STORY = "SET_STORY";

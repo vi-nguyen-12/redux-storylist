@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  padding: 5px;
+export const Wrapper = styled.div`
+  padding: 20px 5px 5px 5px;
   background-color: white;
   margin: 10px;
   border-radius: 10px;

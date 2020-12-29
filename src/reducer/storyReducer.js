@@ -4,15 +4,14 @@ import {
   FETCH,
   ERROR,
   STOP_LOADING,
-  CHANGE_PAGE
+  CHANGE_PAGE,
+  SET_STORY
 } from "actions/types";
 const INIT_STATE = {
   stories: [],
   loading: false,
   error: null,
-  pageNumber: 1,
-  numberOfPages: 1,
-  storiesPerPage: 5
+  story:{}
 };
 const storyReducer = produce((draft, { type, payload }) => {
   switch (type) {
@@ -26,11 +25,14 @@ const storyReducer = produce((draft, { type, payload }) => {
       draft.err = payload;
       break;
     case FETCH:
-      draft.stories = payload.list;
-      draft.numberOfPages = payload.numOfPages;
+      draft.stories = payload;
       break;
     case CHANGE_PAGE:
       draft.pageNumber = payload;
+      break;
+    case SET_STORY:
+      draft.story=payload;
+      break
   }
 }, INIT_STATE);
 export default storyReducer;

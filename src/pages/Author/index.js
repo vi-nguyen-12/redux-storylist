@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Icon } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import { Info, StyledLink } from "../styles/StyledDetail";
-import { Container } from "../styles/StyledAuthor";
+import { Icon, Segment,Header, Container  } from "semantic-ui-react";
+import {  Link} from "react-router-dom";
+import { Wrapper } from "./styled";
 import { format } from "date-fns";
 
 const Author = props => {
@@ -33,18 +32,18 @@ const Author = props => {
     return <>Loading... </>;
   }
   return (
-    <div>
-      <h3>Author: {props.match.params.name}</h3>
+    <Wrapper>
+      <Header>Author: {props.match.params.name}</Header>
       {list.map(x => (
-        <Container>
+        <Segment>
           <Link to={`/detail/${x.objectID}`}> {x.title}</Link>
-          <Info>
+          <Container>
             <Icon name="calendar alternate outline" />
-            <StyledLink>{formatDate(x.created_at)}</StyledLink>
-          </Info>
-        </Container>
+            <Link>{formatDate(x.created_at)}</Link>
+          </Container>
+        </Segment>
       ))}
-    </div>
+    </Wrapper>
   );
 };
 
