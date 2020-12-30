@@ -1,52 +1,75 @@
 import React, { useState, useEffect } from "react";
-import { Segment, Icon, Container, Header } from "semantic-ui-react";
+import { Header, List, Placeholder, Container, Label} from "semantic-ui-react";
+import {Wrapper} from './styled'
 import { Link } from "react-router-dom";
 import storiesApi from '../../axios/storiesApi';
-import axios from 'axios'
+import Comments from '../../components/Comments'
+import {formatDate} from '../../util'
 // import isEmpty from 'lodash/isEmpty';
-
-import { format } from "date-fns";
 import {useParams} from 'react-router-dom';
 
 const Story = () => {
   const {id}=useParams(); 
-  console.log(id)
-  const fetchStory=async()=>{
-    try{
-      const res1=await storiesApi.get({tags:`story_${id}`})
-  
-      const res2=await storiesApi.get({tags:`comment,story_${id}`})
-      console.log(res1);
-      console.log(res2)
+  const [story, setStory]=useState({});
+  const [comments,setComments]=useState([])
+  useEffect(() => {
+    const fetchStory=async()=>{
+      try{
+        const res1=await storiesApi.get({tags:`story_${id}`})
+        const res2=await storiesApi.get({tags:`comment,story_${id}`})
+        setStory(res1.hits[0])
+        setComments(res2.hits)
+      }
+      catch(err){
+        console.log(err)
+      }
     }
-    catch(err){
-      console.log(err)
-    }
-  }
-  fetchStory()
+    fetchStory();
+  },[])
+ 
+  const {title,author,created_at,num_comments, points,url}=story;
+  console.log(created_at);
 
-  // const {title,author,created_at,num_comments,comment_text}=story
-  // const formatDate=(date)=>{
-  //   console.log(date)
-  // }
-  // const onComments=()=>{}
+  const onComments=()=>{}
   return (
-    <Segment>
-      {/* <Header>{title}</Header>
+    <Wrapper>
+      <Header>{title}</Header>
+      <List horizontal divided>
+        <List.Item>
+          by <Link to={`/author/${author}`}>{author}</Link>
+        </List.Item>
+        <List.Item>
+          <Link href="#" onClick={onComments}>
+            {num_comments} Comments
+          </Link>
+        </List.Item>
+      </List>
       <Container>
-        <Icon name="calendar alternate outline" />
-        <Link href="#"> */}
-          {/* {created_at && formatDate(created_at)} */}
-        {/* </Link>
-        <Icon name="user" />
-        <Link to={`/author/${author}`}>{author}</Link>{" "}
-        <Icon name="comments" />
-        <Link href="#" onClick={onComments}>
-          Comments
-        </Link>
+        -{formatDate(created_at)}-
       </Container>
-      <Container></Container>  */}
-    </Segment>
+      {/* <List>
+       
+        <List.Item>Link: <a href={`${url}`}>url</a></List.Item>
+      </List> */}
+      <Placeholder>
+        <Label ribbon>
+        {points} points
+        </Label>
+        <Placeholder.Paragraph >
+          <Placeholder.Line />
+          <Placeholder.Line />
+          <Placeholder.Line />
+          <Placeholder.Line />
+          <Placeholder.Line />
+        </Placeholder.Paragraph>
+        <Placeholder.Paragraph>
+          <Placeholder.Line />
+          <Placeholder.Line />
+          <Placeholder.Line />
+        </Placeholder.Paragraph>
+      </Placeholder>
+      <Comments comments={comments}/>
+    </Wrapper>
   );
 };
 

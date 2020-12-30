@@ -1,48 +1,74 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Icon, Segment,Header, Container  } from "semantic-ui-react";
-import {  Link} from "react-router-dom";
+import { Segment,Header, Container, List , Placeholder } from "semantic-ui-react";
+import {  Link, useParams} from "react-router-dom";
 import { Wrapper } from "./styled";
-import { format } from "date-fns";
+import { formatDate } from "../../util";
+import Loading from '../../components/Loading'
 
-const Author = props => {
+const Author = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const {name} =useParams();
 
   useEffect(() => {
-    try {
-      const fetch = async () => {
-        const res = await axios.get(
-          `http://hn.algolia.com/api/v1/search?tags=story,author_${props.match.params.name}`
-        );
-        console.log(res.data.hits);
-        setList(res.data.hits);
-      };
-      fetch();
-    } catch (err) {
-    } finally {
-      setLoading(false);
+    const fetchAuthor=async()=>{
+      try {
+          const res = await axios.get(
+            `http://hn.algolia.com/api/v1/search?tags=story,author_${name}`
+          );
+          setList(res.data.hits);
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
     }
+    fetchAuthor();
   }, []);
 
-  const formatDate = date => {
-    return format(new Date(date), "MM/dd/yyyy");
-  };
   if (loading) {
-    return <>Loading... </>;
+    return <Loading/>
   }
   return (
     <Wrapper>
-      <Header>Author: {props.match.params.name}</Header>
-      {list.map(x => (
-        <Segment>
-          <Link to={`/detail/${x.objectID}`}> {x.title}</Link>
-          <Container>
-            <Icon name="calendar alternate outline" />
-            <Link>{formatDate(x.created_at)}</Link>
-          </Container>
-        </Segment>
-      ))}
+      <Header>{name}</Header>
+      <Container>-Author-</Container>
+      <Placeholder>
+        <Placeholder.Header image>
+          <Placeholder.Line />
+          <Placeholder.Line />
+        </Placeholder.Header>
+        <Placeholder.Paragraph>
+          <Placeholder.Line />
+          <Placeholder.Line />
+          <Placeholder.Line />
+          <Placeholder.Line />
+        </Placeholder.Paragraph>
+      </Placeholder>
+
+      {list.map(i => {
+        const {title, created_at, num_comments, objectID, points}=i
+        return(
+          <Segment>
+            <Link to={`/story/${objectID}`}>
+               <Header>{title}</Header>
+            </Link>
+            <List horizontal divided>
+              <List.Item>
+                by <Link to={`/author/${name}`}>{name}</Link>
+              </List.Item>
+              <List.Item>
+                <Link to={`/author/${name}`}>
+                  {num_comments} Comments
+                </Link>
+              </List.Item>
+            </List>
+            <Container>
+              -{formatDate(created_at)}-
+            </Container>
+          </Segment>
+        )
+      })}
     </Wrapper>
   );
 };

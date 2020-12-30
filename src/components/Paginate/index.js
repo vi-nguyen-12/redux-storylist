@@ -1,25 +1,26 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changePage } from "../../actions/storyActions";
+import { fetch } from "../../actions/storyActions";
 import { Pagination } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { Wrapper } from "./styled";
 
-const PagedList = () => {
+const Paginate = () => {
+  const {totalPages}=useSelector(state=>state.story)
   const dispatch = useDispatch();
   const handleChange = (_, data) => {
-    dispatch(changePage(data.activePage));
+    dispatch(fetch(data.activePage));
   }
 
   return (
     <Wrapper>
       <Pagination
         defaultActivePage={1}
-        totalPages={50}
+        totalPages={totalPages}
         onPageChange={handleChange}
       />
     </Wrapper>
   );
 };
 
-export default PagedList;
+export default Paginate;

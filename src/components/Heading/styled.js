@@ -9,14 +9,15 @@ export const Wrapper = styled(Segment)`
   .ui.header{
     width: 200px;
     font-family: "Sansita Swashed", cursive;
-    color: #3bafaa;
+    color: var(--primary-color);
     font-size: 2rem;
     margin:auto 0;
     text-align:center
   }
-  .ui.menu>.item, .ui.menu .item{
+  .ui.secondary.menu .item {
     &:hover{
-      color:#3bafaa
+      color:var(--primary-color);
+      background-color:transparent
     }
   }
 

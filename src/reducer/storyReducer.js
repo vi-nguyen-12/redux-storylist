@@ -8,6 +8,7 @@ import {
   SET_STORY
 } from "actions/types";
 const INIT_STATE = {
+  totalPages:1,
   stories: [],
   loading: false,
   error: null,
@@ -25,14 +26,15 @@ const storyReducer = produce((draft, { type, payload }) => {
       draft.err = payload;
       break;
     case FETCH:
-      draft.stories = payload;
+      draft.stories = payload.stories;
+      draft.totalPages=payload.totalPages
       break;
     case CHANGE_PAGE:
       draft.pageNumber = payload;
       break;
     case SET_STORY:
       draft.story=payload;
-      break
+      break;
   }
 }, INIT_STATE);
 export default storyReducer;

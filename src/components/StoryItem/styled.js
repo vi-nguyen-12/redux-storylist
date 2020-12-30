@@ -6,19 +6,28 @@ export const Wrapper = styled.div`
   flex-direction: column;
   padding: 10px;
   margin:10px;
-  background-color: white;
   border-radius: 10px;
   height: 100%;
   img.ui.image {
     border-radius: 10px;
   }
   .ui.header{
-    font-size: 1.2rem
+    font-size: 1.2rem;
+    font-weight: 300;
+    & a{
+      color: var(--primary-color)
+    }
   }
-  .ui.container{
-    display:flex;
-    padding: 0 30px;
-    justify-content:space-between;
-  }
+  .ui.horizontal.divided.list>.item{
+        font-size: 0.9rem;
+        & a{
+          color:grey
+        }
+    }
+    .ui.container{
+       text-align: center;
+       font-size: 0.8rem;
+       color:grey
+    }
 `
 

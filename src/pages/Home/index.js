@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchInit } from "../../actions/storyActions";
+import { fetch } from "../../actions/storyActions";
 import { Segment, Header, Grid } from "semantic-ui-react";
 import StoryItem from "../../components/StoryItem/index";
-
-const StoryList = () => {
+import Paginate from "../../components/Paginate";
+const Home = () => {
   const { loading, stories} = useSelector(state => state.story);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchInit());}
+    dispatch(fetch());}
     , []);
 
   if (loading) {
@@ -20,14 +20,17 @@ const StoryList = () => {
     );
   }
   return (
-    <Grid columns={3} textAlign="center">
-      {stories.map(story => (
-        <Grid.Column key={story.id}>
-          <StoryItem story={story} />
-        </Grid.Column>
-      ))}
-    </Grid>
+    <>
+      <Grid columns={3} textAlign="center">
+        {stories.map(story => (
+          <Grid.Column key={story.id}>
+            <StoryItem story={story} />
+          </Grid.Column>
+        ))}
+      </Grid>
+      <Paginate />
+    </>
   );
 };
 
-export default StoryList;
+export default Home;
