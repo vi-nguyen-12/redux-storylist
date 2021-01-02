@@ -1,21 +1,19 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetch } from "../../actions/storyActions";
 import { Pagination } from "semantic-ui-react";
+import {useHistory} from 'react-router-dom';
 import "semantic-ui-css/semantic.min.css";
 import { Wrapper } from "./styled";
 
-const Paginate = () => {
-  const {totalPages}=useSelector(state=>state.story)
-  const dispatch = useDispatch();
-  const handleChange = (_, data) => {
-    dispatch(fetch(data.activePage));
+const Paginate = ({totalPages, pageNumber,query}) => {
+  const history= useHistory();
+  const handleChange=(_,data)=>{
+    if(query){history.push(`/search/${query}/page/${data.activePage}`)}
+    else{history.push(`/page/${data.activePage}`) }
   }
-
   return (
     <Wrapper>
       <Pagination
-        defaultActivePage={1}
+        activePage={pageNumber}
         totalPages={totalPages}
         onPageChange={handleChange}
       />

@@ -1,40 +1,44 @@
 import produce from "immer";
 import {
-  SET_LOADING,
-  FETCH,
-  ERROR,
-  STOP_LOADING,
-  CHANGE_PAGE,
-  SET_STORY
+  STORY_LIST_REQUEST,
+  STORY_LIST_SUCCESS,
+  STORY_LIST_FAIL,
+  STORY_DETAILS_REQUEST,
+  STORY_DETAILS_SUCCESS,
+  STORY_DETAILS_FAIL
 } from "actions/types";
-const INIT_STATE = {
-  totalPages:1,
-  stories: [],
-  loading: false,
-  error: null,
-  story:{}
-};
-const storyReducer = produce((draft, { type, payload }) => {
+
+export const storyListReducer = produce((draft, { type, payload }) => {
   switch (type) {
-    case SET_LOADING:
+    case STORY_LIST_REQUEST:
       draft.loading = true;
       break;
-    case STOP_LOADING:
+    case STORY_LIST_SUCCESS:
+      draft.stories = payload.stories;
+      draft.totalPages=payload.totalPages;
+      draft.pageNumber=payload.pageNumber;
       draft.loading = false;
       break;
-    case ERROR:
-      draft.err = payload;
-      break;
-    case FETCH:
-      draft.stories = payload.stories;
-      draft.totalPages=payload.totalPages
-      break;
-    case CHANGE_PAGE:
-      draft.pageNumber = payload;
-      break;
-    case SET_STORY:
-      draft.story=payload;
+    case STORY_LIST_FAIL:
+      draft.error=payload
+      draft.loading = false;
       break;
   }
-}, INIT_STATE);
-export default storyReducer;
+}, {stories:[]});
+
+export const storyDetailsReducer = produce((draft, { type, payload }) => {
+  switch (type) {
+    case STORY_DETAILS_REQUEST:
+      draft.loading = true;
+      break;
+    case STORY_DETAILS_SUCCESS:
+      draft.story = payload.story;
+      draft.comments=payload.comments
+      draft.loading = false;
+      break;
+    case STORY_DETAILS_FAIL:
+      draft.error=payload
+      draft.loading = false;
+      break;
+  }
+}, {story:{},comments:[]});

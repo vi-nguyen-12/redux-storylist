@@ -6,7 +6,7 @@ import { Wrapper } from "./styled";
 import { formatDate } from "../../util";
 import Loading from '../../components/Loading'
 
-const Author = () => {
+const AuthorPage= () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const {name} =useParams();
@@ -15,7 +15,7 @@ const Author = () => {
     const fetchAuthor=async()=>{
       try {
           const res = await axios.get(
-            `http://hn.algolia.com/api/v1/search?tags=story,author_${name}`
+            `https://hn.algolia.com/api/v1/search?tags=story,author_${name}`
           );
           setList(res.data.hits);
       } catch (err) {
@@ -73,4 +73,4 @@ const Author = () => {
   );
 };
 
-export default Author;
+export default AuthorPage;

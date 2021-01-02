@@ -1,51 +1,38 @@
-import { SET_LOADING, FETCH, ERROR, CHANGE_PAGE, STOP_LOADING, SET_STORY } from "./types";
+import { 
+  STORY_LIST_REQUEST,
+  STORY_LIST_SUCCESS,
+  STORY_LIST_FAIL,
+  STORY_DETAILS_REQUEST,
+  STORY_DETAILS_SUCCESS,
+  STORY_DETAILS_FAIL,
+
+ } from "./types";
 import storiesApi from "axios/storiesApi";
-import { calNumOfPages } from "./util.js";
 
-export const setLoading = () => ({ type: SET_LOADING });
-export const stopLoading = () => ({ type: STOP_LOADING });
 
-export const fetch = (page=1)=> async dispatch => {
+export const listStories = (query='',page=1)=> async dispatch => {
   try {
-    dispatch(setLoading());
-    const res = await storiesApi.get({page:page-1});
+    dispatch({type:STORY_LIST_REQUEST});
+    const res=await storiesApi.get({query,tags:"story",page:page-1});
     dispatch({
-      type:FETCH, 
-      payload:{stories:res.hits,totalPages:res.nbPages}});
+      type:STORY_LIST_SUCCESS, 
+      payload:{stories:res.hits, totalPages:res.nbPages,pageNumber:res.page+1}});
   } catch (err) {
-    dispatch({ type: ERROR, payload: "error" });
-  } finally {
-    dispatch(stopLoading());
-  }
+    dispatch({type:STORY_LIST_FAIL})
+  } 
 };
 
-// export const findStory = id => async dispatch=>{
-//   try{
-//     dispatch(setLoading());
-//     const res = await storiesApi.get({tags:`story_:${id}`});
-//     console.log(res)
-//     // dispatch({type:SET_STORY, payload:res.hits});
-//   }
-//   catch(err){
-//     dispatch({ type: ERROR, payload: "error" })
-//   }
-//   finally {
-//     dispatch(stopLoading());
-//   }
-// };
-
-
-export const getSearch = (input) => async dispatch => {
+export const listStoryDetails = (id)=> async dispatch => {
   try {
-    dispatch(setLoading());
-    const res = await storiesApi.get({query:input,tags:"story"});
-    console.log(res)
+    dispatch({type:STORY_DETAILS_REQUEST});
+    const res1=await storiesApi.get({tags:`story_${id}`})
+    const res2=await storiesApi.get({tags:`comment,story_${id}`})
+
     dispatch({
-      type:FETCH, 
-      payload:{stories:res.hits, totalPages:res.nbPages}});
-  } catch (err) {
-    dispatch({ type: ERROR, payload: "error" });
-  } finally {
-    dispatch(stopLoading());
-  }
+      type:STORY_DETAILS_SUCCESS, 
+      payload:{story:res1.hits[0], comments:res2.hits}})
+   }
+   catch (err) {
+    dispatch({type:STORY_DETAILS_FAIL})
+  } 
 };

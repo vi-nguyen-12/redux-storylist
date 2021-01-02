@@ -1,36 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import {useSelector,useDispatch} from 'react-redux';
 import { Header, List, Placeholder, Container, Label} from "semantic-ui-react";
 import {Wrapper} from './styled'
 import { Link } from "react-router-dom";
-import storiesApi from '../../axios/storiesApi';
+
 import Comments from '../../components/Comments'
+import Loading from '../../components/Loading';
 import {formatDate} from '../../util'
 // import isEmpty from 'lodash/isEmpty';
 import {useParams} from 'react-router-dom';
+import {listStoryDetails} from '../../actions/storyActions'
 
 const Story = () => {
-  const {id}=useParams(); 
-  const [story, setStory]=useState({});
-  const [comments,setComments]=useState([])
-  useEffect(() => {
-    const fetchStory=async()=>{
-      try{
-        const res1=await storiesApi.get({tags:`story_${id}`})
-        const res2=await storiesApi.get({tags:`comment,story_${id}`})
-        setStory(res1.hits[0])
-        setComments(res2.hits)
-      }
-      catch(err){
-        console.log(err)
-      }
-    }
-    fetchStory();
-  },[])
- 
-  const {title,author,created_at,num_comments, points,url}=story;
-  console.log(created_at);
+  const {id}=useParams();
+  const dispatch= useDispatch();
+  const {loading,error,story,comments}=useSelector(state=>state.storyDetails)
 
+  const {title,author,created_at,num_comments, points}=story;
   const onComments=()=>{}
+  
+  useEffect(()=>{
+    dispatch(listStoryDetails(id))
+  },[])
+  if (loading) return <Loading/>
+  if(error) return (<>Error !!!</>)
   return (
     <Wrapper>
       <Header>{title}</Header>
@@ -47,10 +40,6 @@ const Story = () => {
       <Container>
         -{formatDate(created_at)}-
       </Container>
-      {/* <List>
-       
-        <List.Item>Link: <a href={`${url}`}>url</a></List.Item>
-      </List> */}
       <Placeholder>
         <Label ribbon>
         {points} points

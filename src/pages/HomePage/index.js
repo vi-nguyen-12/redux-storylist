@@ -1,22 +1,25 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetch } from "../../actions/storyActions";
-import { Segment, Header, Grid } from "semantic-ui-react";
+import {useParams} from 'react-router-dom'
+import { listStories } from "../../actions/storyActions";
+import { Grid } from "semantic-ui-react";
 import StoryItem from "../../components/StoryItem/index";
 import Paginate from "../../components/Paginate";
-const Home = () => {
-  const { loading, stories} = useSelector(state => state.story);
+import Loading from "../../components/Loading";
 
+
+const Home = () => {
+  const { loading, stories, totalPages,pageNumber} = useSelector(state => state.storyList);
   const dispatch = useDispatch();
+  const {query, page}=useParams();
+
   useEffect(() => {
-    dispatch(fetch());}
-    , []);
+    dispatch(listStories(query, page));}
+    , [page,query]);
 
   if (loading) {
     return (
-      <Segment>
-        <Header as="h2">Loading...</Header>
-      </Segment>
+      <Loading/>
     );
   }
   return (
@@ -28,7 +31,7 @@ const Home = () => {
           </Grid.Column>
         ))}
       </Grid>
-      <Paginate />
+      <Paginate totalPages={totalPages} pageNumber={pageNumber} query={query}/>
     </>
   );
 };

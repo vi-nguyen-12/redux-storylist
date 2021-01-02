@@ -1,4 +1,9 @@
-import Author from './Author/index';
-import Story from './Story';
-import Home from './Home';
-export {Author, Story,Home}
+import StoryPage from './StoryPage';
+import HomePage from './HomePage';
+import AboutPage from './AboutPage';
+import AuthorPage from '../pages/AuthorPage/index';
+import ContactPage from '../pages/ContactPage';
+import LoginPage from '../pages/LoginPage';
+import ProfilePage from '../pages/ProfilePage';
+
+export { AuthorPage, StoryPage,HomePage,AboutPage, ContactPage, LoginPage,ProfilePage}

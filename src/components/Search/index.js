@@ -1,23 +1,23 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getSearch } from "actions/storyActions";
+import {useHistory} from 'react-router-dom';
 import { Input, Form } from "semantic-ui-react";
 
 const Search = () => {
-  const [input, setInput] = useState("");
-  const dispatch = useDispatch();
+  const [query, setQuery] = useState("");
+  const history=useHistory();
+
   const handleChange = (_, data) => {
-    setInput(data.value);
+    setQuery(data.value);
   };
   const handleSubmit = () => {
-    dispatch(getSearch(input));
-    setInput("");
+    if(query){history.push(`/search/${query}`)}
+    else {history.push('/')}
   };
   return (
     <>
       <Form onSubmit={handleSubmit}>
         <Input
-          value={input}
+          value={query}
           placeholder="Search..."
           icon="search"
           onChange={handleChange}
